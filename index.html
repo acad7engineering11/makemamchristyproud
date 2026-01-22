@@ -2,123 +2,681 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universal Quiz Player</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Modern Mobile Quiz</title>
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #4f46e5;       /* Indigo 600 */
+            --primary-hover: #4338ca; /* Indigo 700 */
+            --bg-page: #f8fafc;       /* Slate 50 */
+            --bg-card: #ffffff;
+            --text-main: #1e293b;     /* Slate 800 */
+            --text-muted: #64748b;    /* Slate 500 */
+            --success: #10b981;       /* Emerald 500 */
+            --success-bg: #ecfdf5;
+            --error: #ef4444;         /* Red 500 */
+            --error-bg: #fef2f2;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* --- LAYOUT CONTAINER --- */
+        #app {
+            width: 100%;
+            max-width: 600px;
+            min-height: 100vh;
+            background: var(--bg-card);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            box-shadow: none;
+        }
+
+        @media (min-width: 600px) {
+            #app {
+                min-height: auto;
+                margin: 40px 20px;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                height: fit-content;
+                min-height: 600px;
+            }
+            body { align-items: flex-start; }
+        }
+
+        /* --- VIEW MANAGEMENT --- */
+        .view {
+            display: none;
+            flex-direction: column;
+            padding: 24px;
+            animation: fadeIn 0.3s ease-out;
+            flex: 1;
+        }
+        .view.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 { margin: 0 0 16px 0; line-height: 1.2; }
+        h1 { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        h2 { font-size: 1.25rem; font-weight: 700; }
+        p { margin-bottom: 16px; line-height: 1.6; color: var(--text-muted); }
+
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 14px 20px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+            min-height: 48px; /* Touch target */
+        }
+        
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:active { background: var(--primary-hover); transform: scale(0.98); }
+        
+        .btn-secondary { background: white; border: 2px solid var(--border); color: var(--text-main); }
+        .btn-secondary:active { background: var(--bg-page); }
+        .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .btn-text { background: none; color: var(--text-muted); padding: 8px; width: auto; font-size: 0.9rem; }
+        .btn-text:hover { color: var(--primary); }
+
+        /* --- START SCREEN --- */
+        .mode-card {
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: block;
+            position: relative;
+        }
+        .mode-card input { position: absolute; opacity: 0; }
+        .mode-card:has(input:checked) {
+            border-color: var(--primary);
+            background-color: #eef2ff;
+        }
+        .mode-title { font-weight: 700; display: block; margin-bottom: 4px; color: var(--text-main); }
+        .mode-desc { font-size: 0.85rem; color: var(--text-muted); display: block; }
+
+        /* --- QUIZ HEADER --- */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        .badge {
+            background: #f1f5f9;
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- PROGRESS BAR --- */
+        .progress-track {
+            background: var(--border);
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: var(--primary);
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* --- QUESTIONS & OPTIONS --- */
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 24px;
+            color: var(--text-main);
+        }
+        .options-grid { display: grid; gap: 12px; }
+        
+        .option-btn {
+            background: white;
+            border: 2px solid var(--border);
+            padding: 16px;
+            border-radius: var(--radius);
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+            user-select: none;
+        }
+        
+        .option-btn:hover { border-color: #cbd5e1; }
+        .option-btn:active { transform: scale(0.99); }
+
+        /* States */
+        .option-btn.selected { border-color: var(--primary); background: #eef2ff; color: var(--primary); font-weight: 600; }
+        .option-btn.correct { border-color: var(--success); background: var(--success-bg); color: #065f46; }
+        .option-btn.wrong { border-color: var(--error); background: var(--error-bg); color: #991b1b; }
+        .option-btn.disabled { pointer-events: none; opacity: 0.7; }
+
+        /* --- EXPLANATION --- */
+        .explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: #f8fafc;
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+        .hidden { display: none !important; }
+
+        /* --- FOOTER NAV --- */
+        .quiz-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            display: flex;
+            gap: 12px;
+        }
+
+        /* --- RESULTS --- */
+        .score-container {
+            text-align: center;
+            margin: 20px 0;
+            padding: 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius);
+        }
+        .score-big { font-size: 3rem; font-weight: 800; line-height: 1; }
+        .score-label { opacity: 0.9; font-size: 0.9rem; margin-top: 5px; display: block;}
+        
+        .review-list { margin-top: 20px; max-height: 400px; overflow-y: auto; }
+        .review-item { 
+            border-bottom: 1px solid var(--border); 
+            padding: 12px 0; 
+            font-size: 0.9rem;
+        }
+        .review-status { font-weight: 700; margin-right: 8px; }
+        .review-status.correct { color: var(--success); }
+        .review-status.wrong { color: var(--error); }
+
+    </style>
 </head>
 <body>
 
-    <main id="app">
-        <!-- 1. LOADING STATE -->
-        <section id="loading-view" class="view active">
-            <div class="loader"></div>
-            <p>Loading quiz data...</p>
-        </section>
+<div id="app">
+    <!-- 1. LOADING -->
+    <section id="view-loading" class="view active" style="justify-content:center; align-items:center; text-align:center;">
+        <div style="border: 4px solid #e2e8f0; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;"></div>
+        <p style="margin-top:15px">Loading Quiz...</p>
+    </section>
 
-        <!-- 2. ERROR STATE -->
-        <section id="error-view" class="view">
-            <div class="error-box">
-                <h2>⚠️ Error</h2>
-                <p id="error-message">Unable to load quiz.</p>
-                <button id="retry-btn" class="btn primary">Retry</button>
-            </div>
-        </section>
-
-        <!-- 3. START STATE -->
-        <section id="start-view" class="view">
-            <div class="card">
-                <h1 id="quiz-title">Quiz Title</h1>
-                <p id="quiz-desc">Description</p>
-                <div class="meta-info">
-                    <span id="quiz-author">Author</span> •
-                    <span id="quiz-count">0 Questions</span>
-                </div>
-
-                <div class="mode-selector">
-                    <h3>Select Review Mode:</h3>
-                    <label class="mode-option">
-                        <input type="radio" name="mode" value="A">
-                        <div class="mode-card">
-                            <strong>Mode A: Show as you go</strong>
-                            <p>Immediate feedback after every question.</p>
-                        </div>
-                    </label>
-                    <label class="mode-option">
-                        <input type="radio" name="mode" value="B">
-                        <div class="mode-card">
-                            <strong>Mode B: Check when done</strong>
-                            <p>Complete the quiz first, then review results.</p>
-                        </div>
-                    </label>
-                </div>
-
-                <button id="start-btn" class="btn primary full-width">Start Quiz</button>
-                <button id="resume-btn" class="btn secondary full-width hidden">Resume Progress</button>
-            </div>
-        </section>
-
-<!-- 4. QUIZ STATE -->
-<section id="quiz-view" class="view">
-    <header class="quiz-header">
-        <!-- NEW: Top Bar for Settings -->
-        <div class="quiz-top-bar">
-            <span id="category-tag" class="tag">General</span>
-            <button id="exit-btn" class="btn-text">⚙️ Menu</button>
-        </div>
-
-        <!-- Existing Progress Bar -->
-        <div class="progress-container">
-            <div class="progress-labels">
-                <span id="progress-text">Question 1 of 10</span>
-            </div>
-            <div class="progress-bar-bg">
-                <div id="progress-fill" class="progress-fill"></div>
-            </div>
-        </div>
-    </header>
-
-    <div class="question-container">
-        <h2 id="question-text">Question goes here?</h2>
-        <div id="options-container" class="options-grid"></div>
+    <!-- 2. START SCREEN -->
+    <section id="view-start" class="view">
+        <h1 id="start-title">General Quiz</h1>
+        <p id="start-desc">Test your knowledge.</p>
         
+        <div style="margin-top: 20px;">
+            <h3>Select Mode</h3>
+            <label class="mode-card">
+                <input type="radio" name="mode" value="A" checked>
+                <span class="mode-title">⚡ Instant Feedback</span>
+                <span class="mode-desc">See the correct answer immediately after clicking.</span>
+            </label>
+            <label class="mode-card">
+                <input type="radio" name="mode" value="B">
+                <span class="mode-title">📝 Exam Mode</span>
+                <span class="mode-desc">Answer all questions, then check results at the end.</span>
+            </label>
+        </div>
+
+        <div style="margin-top: auto;">
+            <button id="btn-start" class="btn btn-primary">Start Quiz</button>
+            <button id="btn-resume" class="btn btn-secondary hidden">Resume Previous Session</button>
+        </div>
+    </section>
+
+    <!-- 3. QUIZ INTERFACE -->
+    <section id="view-quiz" class="view">
+        <header class="quiz-header">
+            <span id="quiz-cat-badge" class="badge">General</span>
+            <button id="btn-menu" class="btn-text">✕ Menu</button>
+        </header>
+
+        <div class="progress-track">
+            <div id="progress-bar" class="progress-fill"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">
+            <span id="progress-text">Q1</span>
+        </div>
+
+        <h2 id="question-text" class="question-text">Loading...</h2>
+
+        <div id="options-container" class="options-grid">
+            <!-- Options injected here -->
+        </div>
+
         <div id="explanation-box" class="explanation hidden">
             <strong>Explanation:</strong>
-            <p id="explanation-text"></p>
+            <span id="explanation-text"></span>
         </div>
-    </div>
 
-    <footer class="quiz-footer">
-        <button id="prev-btn" class="btn secondary" disabled>Previous</button>
-        <button id="next-btn" class="btn primary">Next</button>
-        <button id="submit-btn" class="btn success hidden">Submit Quiz</button>
-    </footer>
-</section>
+        <footer class="quiz-footer">
+            <button id="btn-prev" class="btn btn-secondary">Previous</button>
+            <button id="btn-next" class="btn btn-primary">Next</button>
+        </footer>
+    </section>
 
-        <!-- 5. RESULTS STATE -->
-        <section id="results-view" class="view">
-            <div class="card results-card">
-                <h2>Quiz Complete!</h2>
-                <div class="score-circle">
-                    <span id="final-score">0%</span>
-                    <small id="score-text">0/0 Correct</small>
+    <!-- 4. RESULTS SCREEN -->
+    <section id="view-results" class="view">
+        <h2>Quiz Complete!</h2>
+        <div class="score-container">
+            <div id="result-percent" class="score-big">0%</div>
+            <span id="result-fraction" class="score-label">0/0 Correct</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <button id="btn-review" class="btn btn-secondary">Review Answers</button>
+            <button id="btn-restart" class="btn btn-primary">Restart Quiz</button>
+        </div>
+        
+        <button id="btn-home" class="btn btn-text" style="margin-top:10px; width:100%; text-align:center;">Back to Home</button>
+
+        <div id="review-container" class="review-list hidden"></div>
+    </section>
+</div>
+
+<script>
+/**
+ * DATA SOURCE
+ * Embedded JSON logic to simulate external file loading.
+ * This guarantees the file runs locally without CORS errors.
+ */
+const DEFAULT_DATA = {
+    "title": "General Knowledge",
+    "description": "A comprehensive quiz to test your general knowledge skills.",
+    "questions": [
+        {
+            "q": "What is the capital of France?",
+            "a": ["Berlin", "Madrid", "Paris", "Lisbon"],
+            "c": 2,
+            "e": "Paris is the capital and most populous city of France.",
+            "cat": "Geography"
+        },
+        {
+            "q": "Which element has the chemical symbol 'O'?",
+            "a": ["Gold", "Oxygen", "Osmium", "Olive"],
+            "c": 1,
+            "e": "Oxygen is a chemical element with the symbol O and atomic number 8.",
+            "cat": "Science"
+        },
+        {
+            "q": "Who painted the Mona Lisa?",
+            "a": ["Van Gogh", "Picasso", "Da Vinci", "Rembrandt"],
+            "c": 2,
+            "e": "The Mona Lisa was painted by Italian artist Leonardo da Vinci.",
+            "cat": "Art"
+        },
+        {
+            "q": "What year did the Titanic sink?",
+            "a": ["1912", "1905", "1920", "1898"],
+            "c": 0,
+            "e": "The RMS Titanic sank in the North Atlantic Ocean in 1912.",
+            "cat": "History"
+        },
+        {
+            "q": "Which planet is largest in our solar system?",
+            "a": ["Earth", "Mars", "Jupiter", "Saturn"],
+            "c": 2,
+            "e": "Jupiter is the largest planet in our solar system.",
+            "cat": "Astronomy"
+        }
+    ]
+};
+
+/**
+ * APP LOGIC
+ */
+const App = (() => {
+    // State
+    const state = {
+        questions: [],
+        currentIndex: 0,
+        answers: {}, // map { questionIndex: answerIndex }
+        mode: 'A',   // 'A' = Instant, 'B' = Exam
+        isComplete: false
+    };
+
+    // DOM Elements Cache
+    const el = (id) => document.getElementById(id);
+    const DOM = {
+        views: document.querySelectorAll('.view'),
+        // Start
+        startTitle: el('start-title'),
+        startDesc: el('start-desc'),
+        btnStart: el('btn-start'),
+        btnResume: el('btn-resume'),
+        modeInputs: document.querySelectorAll('input[name="mode"]'),
+        // Quiz
+        badge: el('quiz-cat-badge'),
+        btnMenu: el('btn-menu'),
+        bar: el('progress-bar'),
+        progText: el('progress-text'),
+        qText: el('question-text'),
+        opts: el('options-container'),
+        expBox: el('explanation-box'),
+        expText: el('explanation-text'),
+        btnPrev: el('btn-prev'),
+        btnNext: el('btn-next'),
+        // Results
+        resPercent: el('result-percent'),
+        resFraction: el('result-fraction'),
+        btnReview: el('btn-review'),
+        btnRestart: el('btn-restart'),
+        btnHome: el('btn-home'),
+        reviewCont: el('review-container')
+    };
+
+    // Initialization
+    const init = () => {
+        // Simulate loading delay for UX
+        setTimeout(() => {
+            loadData();
+            bindEvents();
+        }, 600);
+    };
+
+    const loadData = () => {
+        // In a real scenario, fetch() would go here.
+        // We use the embedded constant for robustness.
+        state.questions = DEFAULT_DATA.questions;
+        DOM.startTitle.textContent = DEFAULT_DATA.title;
+        DOM.startDesc.textContent = DEFAULT_DATA.description;
+        
+        checkStorage();
+        showView('view-start');
+    };
+
+    const checkStorage = () => {
+        const saved = localStorage.getItem('quiz_progress');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            // Basic validation
+            if (parsed.total === state.questions.length && !parsed.isComplete) {
+                DOM.btnResume.classList.remove('hidden');
+                DOM.btnResume.onclick = () => resumeQuiz(parsed);
+            }
+        }
+    };
+
+    const bindEvents = () => {
+        DOM.btnStart.addEventListener('click', startNewQuiz);
+        DOM.btnMenu.addEventListener('click', exitToMenu);
+        DOM.btnPrev.addEventListener('click', () => nav(-1));
+        DOM.btnNext.addEventListener('click', () => nav(1));
+        DOM.btnRestart.addEventListener('click', restartQuiz);
+        DOM.btnHome.addEventListener('click', exitToMenu);
+        
+        DOM.btnReview.addEventListener('click', () => {
+            DOM.reviewCont.classList.toggle('hidden');
+            DOM.btnReview.textContent = DOM.reviewCont.classList.contains('hidden') 
+                ? 'Review Answers' : 'Hide Review';
+        });
+
+        DOM.modeInputs.forEach(input => {
+            input.addEventListener('change', (e) => state.mode = e.target.value);
+        });
+    };
+
+    // Navigation & View Switching
+    const showView = (id) => {
+        DOM.views.forEach(v => v.classList.remove('active'));
+        el(id).classList.add('active');
+        window.scrollTo(0,0);
+    };
+
+    // Core Quiz Logic
+    const startNewQuiz = () => {
+        // Reset State
+        state.currentIndex = 0;
+        state.answers = {};
+        state.isComplete = false;
+        
+        // Get Mode
+        const selectedMode = document.querySelector('input[name="mode"]:checked');
+        state.mode = selectedMode ? selectedMode.value : 'A';
+
+        // Clear Storage
+        localStorage.removeItem('quiz_progress');
+
+        renderQuestion();
+        showView('view-quiz');
+    };
+
+    const resumeQuiz = (savedState) => {
+        state.currentIndex = savedState.currentIndex;
+        state.answers = savedState.answers;
+        state.mode = savedState.mode;
+        state.isComplete = false;
+        renderQuestion();
+        showView('view-quiz');
+    };
+
+    const renderQuestion = () => {
+        const q = state.questions[state.currentIndex];
+        const userAns = state.answers[state.currentIndex];
+        const hasAnswered = userAns !== undefined;
+
+        // UI Updates
+        DOM.badge.textContent = q.cat || 'General';
+        DOM.qText.textContent = q.q;
+        DOM.progText.textContent = `Question ${state.currentIndex + 1} of ${state.questions.length}`;
+        DOM.bar.style.width = `${((state.currentIndex + 1) / state.questions.length) * 100}%`;
+
+        // Explanation Reset
+        DOM.expBox.classList.add('hidden');
+
+        // Render Options
+        DOM.opts.innerHTML = '';
+        q.a.forEach((optText, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerHTML = `<span style="font-weight:700; margin-right:8px;">${['A','B','C','D'][idx]}</span> ${optText}`;
+            
+            // Interaction
+            btn.onclick = () => handleAnswer(idx);
+
+            // Styling based on state
+            if (hasAnswered) {
+                if (state.mode === 'A') {
+                    // Instant Feedback Mode
+                    btn.classList.add('disabled'); // Lock all
+                    if (idx === q.c) btn.classList.add('correct');
+                    else if (idx === userAns) btn.classList.add('wrong');
+                } else {
+                    // Exam Mode
+                    if (idx === userAns) btn.classList.add('selected');
+                }
+            }
+            DOM.opts.appendChild(btn);
+        });
+
+        // Show Explanation (Mode A only, if answered)
+        if (state.mode === 'A' && hasAnswered) {
+            DOM.expText.textContent = q.e;
+            DOM.expBox.classList.remove('hidden');
+        }
+
+        updateNavButtons();
+    };
+
+    const handleAnswer = (idx) => {
+        // Prevent changing answer in Mode A
+        if (state.mode === 'A' && state.answers[state.currentIndex] !== undefined) return;
+        
+        // Record Answer
+        state.answers[state.currentIndex] = idx;
+        
+        // Save Progress
+        saveProgress();
+
+        // Refresh UI
+        renderQuestion();
+    };
+
+    const updateNavButtons = () => {
+        // Prev Button
+        DOM.btnPrev.disabled = state.currentIndex === 0;
+        
+        // Next Button Text (Next vs Finish)
+        const isLast = state.currentIndex === state.questions.length - 1;
+        DOM.btnNext.textContent = isLast ? 'Finish Quiz' : 'Next Question';
+        
+        // Next Button Logic
+        // In Mode A, force answer before next (optional, but good UX)
+        // In Mode B, allow skipping
+        DOM.btnNext.onclick = () => {
+            if (isLast) finishQuiz();
+            else nav(1);
+        };
+    };
+
+    const nav = (dir) => {
+        const newIndex = state.currentIndex + dir;
+        if (newIndex >= 0 && newIndex < state.questions.length) {
+            state.currentIndex = newIndex;
+            renderQuestion();
+            saveProgress();
+        }
+    };
+
+    const saveProgress = () => {
+        const data = {
+            currentIndex: state.currentIndex,
+            answers: state.answers,
+            mode: state.mode,
+            total: state.questions.length,
+            isComplete: false
+        };
+        localStorage.setItem('quiz_progress', JSON.stringify(data));
+    };
+
+    const exitToMenu = () => {
+        if (!state.isComplete) saveProgress();
+        checkStorage(); // Refresh resume button
+        showView('view-start');
+    };
+
+    const restartQuiz = () => {
+        if(confirm("Restart quiz? Progress will be lost.")) {
+            startNewQuiz();
+        }
+    };
+
+    // Finish & Results
+    const finishQuiz = () => {
+        // Validation for empty answers in Exam Mode
+        const answeredCount = Object.keys(state.answers).length;
+        if (answeredCount < state.questions.length) {
+            if (!confirm(`You have only answered ${answeredCount} of ${state.questions.length} questions. Submit anyway?`)) return;
+        }
+
+        state.isComplete = true;
+        localStorage.removeItem('quiz_progress'); // Clear saved state
+        
+        calculateResults();
+        showView('view-results');
+    };
+
+    const calculateResults = () => {
+        let score = 0;
+        let html = '';
+
+        state.questions.forEach((q, i) => {
+            const userAns = state.answers[i];
+            const isCorrect = userAns === q.c;
+            if (isCorrect) score++;
+
+            // Build Review Item
+            const statusColor = isCorrect ? 'correct' : 'wrong';
+            const statusText = isCorrect ? 'Correct' : 'Incorrect';
+            const userText = userAns !== undefined ? q.a[userAns] : 'Skipped';
+            const correctText = q.a[q.c];
+
+            html += `
+            <div class="review-item">
+                <div style="margin-bottom:4px;">
+                    <strong>Q${i+1}:</strong> <span class="review-status ${statusColor}">${statusText}</span>
                 </div>
-
-                <div id="category-breakdown" class="breakdown-list">
-                    <!-- Categories injected via JS -->
+                <div style="margin-bottom:8px; color:#334155;">${q.q}</div>
+                <div style="font-size:0.85rem; color:#64748b;">
+                    Your Answer: <b>${userText}</b><br>
+                    Correct Answer: <b>${correctText}</b>
                 </div>
-
-                <div class="action-buttons">
-                    <button id="review-btn" class="btn secondary">Review Answers</button>
-                    <button id="restart-btn" class="btn primary">Take Again</button>
+                <div style="margin-top:6px; font-size:0.85rem; color:#475569; font-style:italic;">
+                    ${q.e}
                 </div>
-            </div>
+            </div>`;
+        });
 
-            <div id="review-list" class="review-list hidden">
-                <!-- Detailed review injected via JS -->
-            </div>
-        </section>
-    </main>
+        // Update DOM
+        const percent = Math.round((score / state.questions.length) * 100);
+        DOM.resPercent.textContent = `${percent}%`;
+        DOM.resFraction.textContent = `${score} / ${state.questions.length} Correct`;
+        DOM.reviewCont.innerHTML = html;
+        DOM.reviewCont.classList.add('hidden'); // Hide by default
+        DOM.btnReview.textContent = 'Review Answers';
+    };
 
-    <script src="script.js"></script>
+    return { init };
+})();
+
+// Start App
+document.addEventListener('DOMContentLoaded', () => {
+    // Styling Keyframes Inject
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    `;
+    document.head.appendChild(style);
+    
+    App.init();
+});
+</script>
+
 </body>
 </html>
