@@ -95,3 +95,35 @@ body { background-color: #f8fafc; color: var(--text); line-height: 1.5; min-heig
     #app { margin: 20px auto; border-radius: var(--radius); box-shadow: var(--shadow); min-height: auto; padding-bottom: 20px; }
     .options-grid { grid-template-columns: 1fr 1fr; }
 }
+
+
+/* Add these new rules */
+.quiz-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.tag {
+    background: #e0f2fe;
+    color: var(--primary-dark);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 5px;
+}
+
+.btn-text:hover {
+    color: var(--primary);
+}
