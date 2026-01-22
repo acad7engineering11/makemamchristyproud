@@ -57,38 +57,42 @@
             </div>
         </section>
 
-        <!-- 4. QUIZ STATE -->
-        <section id="quiz-view" class="view">
-            <header class="quiz-header">
-                <div class="progress-container">
-                    <div class="progress-labels">
-                        <span id="progress-text">Question 1 of 10</span>
-                        <span id="category-tag">General</span>
-                    </div>
-                    <div class="progress-bar-bg">
-                        <div id="progress-fill" class="progress-fill"></div>
-                    </div>
-                </div>
-            </header>
+<!-- 4. QUIZ STATE -->
+<section id="quiz-view" class="view">
+    <header class="quiz-header">
+        <!-- NEW: Top Bar for Settings -->
+        <div class="quiz-top-bar">
+            <span id="category-tag" class="tag">General</span>
+            <button id="exit-btn" class="btn-text">⚙️ Menu</button>
+        </div>
 
-            <div class="question-container">
-                <h2 id="question-text">Question goes here?</h2>
-                <div id="options-container" class="options-grid">
-                    <!-- Buttons injected via JS -->
-                </div>
-
-                <div id="explanation-box" class="explanation hidden">
-                    <strong>Explanation:</strong>
-                    <p id="explanation-text"></p>
-                </div>
+        <!-- Existing Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-labels">
+                <span id="progress-text">Question 1 of 10</span>
             </div>
+            <div class="progress-bar-bg">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+        </div>
+    </header>
 
-            <footer class="quiz-footer">
-                <button id="prev-btn" class="btn secondary" disabled>Previous</button>
-                <button id="next-btn" class="btn primary">Next</button>
-                <button id="submit-btn" class="btn success hidden">Submit Quiz</button>
-            </footer>
-        </section>
+    <div class="question-container">
+        <h2 id="question-text">Question goes here?</h2>
+        <div id="options-container" class="options-grid"></div>
+        
+        <div id="explanation-box" class="explanation hidden">
+            <strong>Explanation:</strong>
+            <p id="explanation-text"></p>
+        </div>
+    </div>
+
+    <footer class="quiz-footer">
+        <button id="prev-btn" class="btn secondary" disabled>Previous</button>
+        <button id="next-btn" class="btn primary">Next</button>
+        <button id="submit-btn" class="btn success hidden">Submit Quiz</button>
+    </footer>
+</section>
 
         <!-- 5. RESULTS STATE -->
         <section id="results-view" class="view">
