@@ -2,768 +2,119 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#2563eb">
-    <meta name="description" content="Mobile-first Quiz Player">
-    <title>General Science Quiz</title>
-    
-    <!-- PWA Manifest Placeholder -->
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiR2VuZXJhbCBTY2llbmNlIFF1aXoiLCJzaG9ydF9uYW1lIjoiR2VuU2NpIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI2ZmZmZmZiIsInRoZW1lX2NvbG9yIjoiIzI1NjNlYiIsImljb25zIjpbeyJzcmMiOiJodHRwczovL3ZpYS5wbGFjZWhvbGRlci5jb20vMTkyLnBuZz90ZXh0PVF1aXoiLCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
-
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --primary-light: #eff6ff;
-            --success: #16a34a;
-            --success-bg: #f0fdf4;
-            --error: #dc2626;
-            --error-bg: #fef2f2;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --bg-main: #f8fafc;
-            --bg-card: #ffffff;
-            --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            --radius: 12px;
-            --font-size-base: 16px;
-        }
-
-        [data-theme="dark"] {
-            --primary: #3b82f6;
-            --primary-dark: #60a5fa;
-            --primary-light: #1e293b;
-            --success: #4ade80;
-            --success-bg: #14532d;
-            --error: #f87171;
-            --error-bg: #7f1d1d;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --bg-main: #0f172a;
-            --bg-card: #1e293b;
-            --border: #334155;
-        }
-
-        [data-text-size="large"] { --font-size-base: 20px; }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            font-size: var(--font-size-base);
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        /* Utility Classes */
-        .hidden { display: none !important; }
-        .flex { display: flex; }
-        .flex-col { flex-direction: column; }
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .justify-center { justify-content: center; }
-        .text-center { text-align: center; }
-        .font-bold { font-weight: 700; }
-        .w-full { width: 100%; }
-        .p-4 { padding: 1rem; }
-        .mb-4 { margin-bottom: 1rem; }
-        
-        /* Layout */
-        #app {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            max-width: 600px;
-            margin: 0 auto;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        header {
-            padding: 1rem;
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-        }
-
-        main {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.5rem;
-            position: relative;
-        }
-
-        footer {
-            padding: 1rem;
-            background: var(--bg-card);
-            border-top: 1px solid var(--border);
-            padding-bottom: max(1rem, env(safe-area-inset-bottom));
-        }
-
-        /* Components */
-        .btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--radius);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            min-height: 48px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.1s, opacity 0.2s;
-            touch-action: manipulation;
-        }
-        .btn:active { transform: scale(0.98); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text-muted); }
-        .btn-ghost { background: transparent; color: var(--text-muted); padding: 0.5rem; min-height: 44px; min-width: 44px; }
-
-        .card {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-            margin-bottom: 1rem;
-            border: 1px solid var(--border);
-        }
-
-        /* Quiz Elements */
-        .option-btn {
-            width: 100%;
-            text-align: left;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            background: var(--bg-card);
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            color: var(--text-main);
-            font-size: 1rem;
-            display: flex;
-            align-items: flex-start;
-            transition: all 0.2s;
-            min-height: 56px;
-        }
-        .option-btn .letter {
-            background: var(--bg-main);
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
-            margin-right: 12px;
-            font-weight: bold;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            flex-shrink: 0;
-        }
-        .option-btn.selected { border-color: var(--primary); background: var(--primary-light); }
-        .option-btn.selected .letter { background: var(--primary); color: white; }
-        
-        .option-btn.correct { border-color: var(--success); background: var(--success-bg); }
-        .option-btn.incorrect { border-color: var(--error); background: var(--error-bg); }
-
-        .progress-container {
-            height: 6px;
-            background: var(--border);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 0.5rem;
-        }
-        .progress-bar {
-            height: 100%;
-            background: var(--primary);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        /* Mode Selector */
-        .mode-select {
-            display: grid;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        .mode-option {
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-        }
-        .mode-option.active { border-color: var(--primary); background: var(--primary-light); }
-        .radio-circle {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--text-muted);
-            border-radius: 50%;
-            margin-right: 1rem;
-            position: relative;
-        }
-        .mode-option.active .radio-circle { border-color: var(--primary); }
-        .mode-option.active .radio-circle::after {
-            content: '';
-            position: absolute;
-            top: 3px; left: 3px; right: 3px; bottom: 3px;
-            background: var(--primary);
-            border-radius: 50%;
-        }
-
-        /* Loading Spinner */
-        .spinner {
-            width: 40px; height: 40px;
-            border: 4px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Review Section */
-        .review-item {
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 0;
-        }
-        .tag {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 99px;
-            background: var(--bg-main);
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 0.5rem;
-        }
-
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Quiz Player</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="app">
-    <!-- Header -->
-    <header>
-        <div class="flex items-center">
-            <h1 class="font-bold" style="font-size: 1.1rem;">GenSci Quiz</h1>
-        </div>
-        <div class="flex items-center gap-2">
-            <button class="btn-ghost" onclick="toggleTheme()" aria-label="Toggle Dark Mode">
-                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-            </button>
-            <button class="btn-ghost" onclick="toggleTextSize()" aria-label="Toggle Text Size">
-                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
-        </div>
-    </header>
+    <main id="app">
+        <!-- 1. LOADING STATE -->
+        <section id="loading-view" class="view active">
+            <div class="loader"></div>
+            <p>Loading quiz data...</p>
+        </section>
 
-    <!-- Loading Screen -->
-    <main id="screen-loading" class="flex flex-col justify-center items-center">
-        <div class="spinner"></div>
-        <p class="mt-4 text-muted">Loading Quiz Data...</p>
-    </main>
-
-    <!-- Start Screen -->
-    <main id="screen-start" class="hidden">
-        <div class="card text-center">
-            <h2 id="quiz-title" class="text-2xl font-bold mb-2">Quiz Title</h2>
-            <p id="quiz-desc" class="text-muted mb-4">Description</p>
-            <div class="text-sm font-bold bg-blue-100 text-blue-800 inline-block px-3 py-1 rounded-full mb-2">
-                <span id="question-count">0</span> Questions
+        <!-- 2. ERROR STATE -->
+        <section id="error-view" class="view">
+            <div class="error-box">
+                <h2>⚠️ Error</h2>
+                <p id="error-message">Unable to load quiz.</p>
+                <button id="retry-btn" class="btn primary">Retry</button>
             </div>
-            <div id="resume-alert" class="hidden mt-4 p-3 bg-blue-50 text-blue-800 rounded text-sm">
-                Saved progress found.
-            </div>
-        </div>
+        </section>
 
-        <h3 class="font-bold mb-2">Select Mode</h3>
-        <div class="mode-select">
-            <div class="mode-option active" onclick="selectMode('practice')">
-                <div class="radio-circle"></div>
-                <div>
-                    <div class="font-bold">Show as you go</div>
-                    <div class="text-sm text-muted">Immediate feedback after each answer. Best for studying.</div>
+        <!-- 3. START STATE -->
+        <section id="start-view" class="view">
+            <div class="card">
+                <h1 id="quiz-title">Quiz Title</h1>
+                <p id="quiz-desc">Description</p>
+                <div class="meta-info">
+                    <span id="quiz-author">Author</span> •
+                    <span id="quiz-count">0 Questions</span>
+                </div>
+
+                <div class="mode-selector">
+                    <h3>Select Review Mode:</h3>
+                    <label class="mode-option">
+                        <input type="radio" name="mode" value="A">
+                        <div class="mode-card">
+                            <strong>Mode A: Show as you go</strong>
+                            <p>Immediate feedback after every question.</p>
+                        </div>
+                    </label>
+                    <label class="mode-option">
+                        <input type="radio" name="mode" value="B">
+                        <div class="mode-card">
+                            <strong>Mode B: Check when done</strong>
+                            <p>Complete the quiz first, then review results.</p>
+                        </div>
+                    </label>
+                </div>
+
+                <button id="start-btn" class="btn primary full-width">Start Quiz</button>
+                <button id="resume-btn" class="btn secondary full-width hidden">Resume Progress</button>
+            </div>
+        </section>
+
+        <!-- 4. QUIZ STATE -->
+        <section id="quiz-view" class="view">
+            <header class="quiz-header">
+                <div class="progress-container">
+                    <div class="progress-labels">
+                        <span id="progress-text">Question 1 of 10</span>
+                        <span id="category-tag">General</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="question-container">
+                <h2 id="question-text">Question goes here?</h2>
+                <div id="options-container" class="options-grid">
+                    <!-- Buttons injected via JS -->
+                </div>
+
+                <div id="explanation-box" class="explanation hidden">
+                    <strong>Explanation:</strong>
+                    <p id="explanation-text"></p>
                 </div>
             </div>
-            <div class="mode-option" onclick="selectMode('exam')">
-                <div class="radio-circle"></div>
-                <div>
-                    <div class="font-bold">Check when done</div>
-                    <div class="text-sm text-muted">No feedback until the end. Best for testing.</div>
+
+            <footer class="quiz-footer">
+                <button id="prev-btn" class="btn secondary" disabled>Previous</button>
+                <button id="next-btn" class="btn primary">Next</button>
+                <button id="submit-btn" class="btn success hidden">Submit Quiz</button>
+            </footer>
+        </section>
+
+        <!-- 5. RESULTS STATE -->
+        <section id="results-view" class="view">
+            <div class="card results-card">
+                <h2>Quiz Complete!</h2>
+                <div class="score-circle">
+                    <span id="final-score">0%</span>
+                    <small id="score-text">0/0 Correct</small>
+                </div>
+
+                <div id="category-breakdown" class="breakdown-list">
+                    <!-- Categories injected via JS -->
+                </div>
+
+                <div class="action-buttons">
+                    <button id="review-btn" class="btn secondary">Review Answers</button>
+                    <button id="restart-btn" class="btn primary">Take Again</button>
                 </div>
             </div>
-        </div>
 
-        <div class="flex flex-col gap-3 mt-auto">
-            <button id="btn-resume" class="hidden btn btn-outline w-full" onclick="resumeQuiz()">Resume Quiz</button>
-            <button class="btn w-full" onclick="startQuiz(true)">Start New Quiz</button>
-        </div>
+            <div id="review-list" class="review-list hidden">
+                <!-- Detailed review injected via JS -->
+            </div>
+        </section>
     </main>
 
-    <!-- Quiz Screen -->
-    <main id="screen-quiz" class="hidden flex flex-col">
-        <div class="flex justify-between items-end mb-2 text-sm text-muted">
-            <span id="progress-text">Question 1 of 10</span>
-            <span id="topic-badge" class="tag mb-0">Topic</span>
-        </div>
-        <div class="progress-container mb-6">
-            <div id="progress-bar" class="progress-bar"></div>
-        </div>
-
-        <div id="quiz-content" class="flex-1 flex flex-col">
-            <h2 id="q-text" class="text-xl font-bold mb-6 leading-snug">Question Text?</h2>
-            
-            <div id="options-list" class="flex-1">
-                <!-- Options injected here -->
-            </div>
-
-            <div id="feedback-area" class="hidden card mt-4 bg-blue-50 border-blue-100">
-                <p id="feedback-msg" class="font-bold mb-1">Correct!</p>
-                <p id="feedback-exp" class="text-sm">Explanation goes here.</p>
-            </div>
-        </div>
-    </main>
-    
-    <footer id="quiz-footer" class="hidden flex justify-between gap-4">
-        <button id="btn-prev" class="btn btn-outline flex-1" onclick="nav(-1)">Previous</button>
-        <button id="btn-next" class="btn flex-1" onclick="nav(1)">Next</button>
-        <button id="btn-finish" class="hidden btn flex-1 bg-green-600" onclick="finishQuiz()">Finish</button>
-    </footer>
-
-    <!-- Results Screen -->
-    <main id="screen-results" class="hidden">
-        <div class="card text-center bg-slate-900" style="color: white; border: none;">
-            <p class="opacity-75 mb-2">Final Score</p>
-            <div class="text-5xl font-bold mb-2" id="score-percent">85%</div>
-            <p class="opacity-75" id="score-fraction">58 / 70</p>
-        </div>
-
-        <h3 class="font-bold mb-3">Topic Performance</h3>
-        <div id="category-stats" class="grid gap-3 mb-6" style="grid-template-columns: 1fr 1fr;">
-            <!-- Stats injected here -->
-        </div>
-
-        <h3 class="font-bold mb-3">Review Answers</h3>
-        <div id="review-list">
-            <!-- Review items injected here -->
-        </div>
-
-        <div class="flex flex-col gap-3 mt-6">
-            <button class="btn w-full" onclick="resetApp()">Back to Home</button>
-            <button class="btn btn-outline w-full" onclick="exportResults()">Copy Results</button>
-        </div>
-    </main>
-</div>
-
-<script>
-/**
- * 1. DATA DEFINITION
- * Embedded fallback data matching the requested JSON structure.
- */
-const FALLBACK_DATA = {
-  "quizTitle": "General Science Review",
-  "quizDescription": "Grade 11 - 3rd Quarter Comprehensive Review",
-  "quizAuthor": "Science Dept",
-  "quizVersion": "1.0",
-  "questions": [
-    // 25 Original Questions
-    {"q":"Farmers notice their crops are wilting even though the soil is moist. Which plant tissue is most likely damaged?","a":["Phloem","Xylem","Stomata","Cambium"],"c":1,"e":"Xylem transports water from roots to leaves. If blocked, wilting occurs despite moist soil.","cat":"Plant Systems"},
-    {"q":"Why do leaves have tiny pores that open and close during the day?","a":["To absorb minerals","To exchange gases","To store food","To reflect sunlight"],"c":1,"e":"Stomata facilitate gas exchange (CO2 entry, O2 exit) for photosynthesis.","cat":"Plant Systems"},
-    {"q":"A plant bends toward a window where sunlight enters. What type of response is this?","a":["Gravitropism","Hydrotropism","Phototropism","Chemotropism"],"c":2,"e":"Phototropism is directional growth towards a light source.","cat":"Plant Systems"},
-    {"q":"If food made in the leaves cannot reach the roots, which transport tissue is blocked?","a":["Xylem","Cambium","Phloem","Cortex"],"c":2,"e":"Phloem transports organic nutrients (sugars) from source to sink.","cat":"Plant Systems"},
-    {"q":"Which part of the plant is mainly responsible for absorbing water and minerals?","a":["Leaves","Roots","Stem","Flowers"],"c":1,"e":"Root hairs increase surface area for water and mineral absorption.","cat":"Plant Systems"},
-    {"q":"During exercise, oxygen is delivered faster to muscles. Which system is responsible for this?","a":["Digestive","Circulatory","Nervous","Endocrine"],"c":1,"e":"The circulatory system increases heart rate to pump oxygen-rich blood faster.","cat":"Animal Systems"},
-    {"q":"A person’s body temperature rises when they have a fever. Which part of the brain helps regulate this?","a":["Cerebellum","Cerebrum","Hypothalamus","Medulla"],"c":2,"e":"The hypothalamus regulates body temperature and homeostasis.","cat":"Animal Systems"},
-    {"q":"Why is the pituitary gland often called the 'master gland'?","a":["It controls digestion","It produces antibodies","It regulates other glands","It stores oxygen"],"c":2,"e":"It secretes hormones that control other endocrine glands (thyroid, adrenals, etc).","cat":"Animal Systems"},
-    {"q":"Which system produces chemical messengers that travel through the blood to control body functions?","a":["Nervous","Circulatory","Endocrine","Immune"],"c":2,"e":"The endocrine system releases hormones directly into the bloodstream.","cat":"Animal Systems"},
-    {"q":"Which part of the body is most affected by a torn ACL?","a":["Shoulder","Ankle","Knee","Elbow"],"c":2,"e":"The Anterior Cruciate Ligament (ACL) stabilizes the knee joint.","cat":"Animal Systems"},
-    {"q":"Cells without functioning mitochondria would struggle to do what?","a":["Divide","Store DNA","Release energy","Absorb water"],"c":2,"e":"Mitochondria perform cellular respiration to produce ATP (energy).","cat":"Cellular Functions"},
-    {"q":"Why is it important to understand how cells form tissues and organs?","a":["To predict how organisms grow","To understand disease spread","To see how systems interact","All of the above"],"c":3,"e":"Biological organization explains how simple units build complex life forms.","cat":"Cellular Functions"},
-    {"q":"If one organ in a system fails, how does it affect the rest of the body?","a":["No effect","Other organs compensate","It may disrupt the whole system","It improves function"],"c":2,"e":"Systems are interdependent; failure in one component often cascades.","cat":"Cellular Functions"},
-    {"q":"Which part of the cell is responsible for controlling activities and storing genetic material?","a":["Mitochondria","Nucleus","Ribosome","Cytoplasm"],"c":1,"e":"The nucleus contains the cell's DNA.","cat":"Cellular Functions"},
-    {"q":"Which organelle is known as the 'powerhouse' of the cell?","a":["Nucleus","Chloroplast","Mitochondria","Golgi body"],"c":2,"e":"Mitochondria generate most of the cell's supply of adenosine triphosphate (ATP).","cat":"Cellular Functions"},
-    {"q":"Coral reefs lose their color when ocean temperatures rise. What is this phenomenon called?","a":["Coral growth","Coral bleaching","Coral migration","Coral respiration"],"c":1,"e":"Stress causes corals to expel symbiotic algae, turning them white.","cat":"Climate Change & Environment"},
-    {"q":"Why does planting more trees help reduce climate change?","a":["Trees produce heat","Trees absorb carbon dioxide","Trees reflect sunlight","Trees trap methane"],"c":1,"e":"Trees sequester carbon dioxide during photosynthesis.","cat":"Climate Change & Environment"},
-    {"q":"Which gas is most linked to the greenhouse effect?","a":["Oxygen","Nitrogen","Carbon dioxide","Helium"],"c":2,"e":"CO2 is a primary greenhouse gas trapping heat in the atmosphere.","cat":"Climate Change & Environment"},
-    {"q":"Migratory birds change their travel patterns earlier than usual. What does this show?","a":["Random behavior","Response to climate","Food shortage","Lunar cycles"],"c":1,"e":"Shifting climate patterns alter cues for migration.","cat":"Climate Change & Environment"},
-    {"q":"Which action helps reduce the impact of climate change?","a":["Deforestation","Burning fossil fuels","Using public transport","Overfishing"],"c":2,"e":"Public transport lowers per-capita carbon emissions compared to private cars.","cat":"Climate Change & Environment"},
-    {"q":"Why do doctors recommend vaccines even if you are healthy?","a":["To cure diseases","To prevent future infections","To increase oxygen","To reduce hunger"],"c":1,"e":"Vaccines build immunity (memory cells) before exposure to the actual pathogen.","cat":"Human Health & Diseases"},
-    {"q":"What happens inside the body when antibodies attach to harmful microbes?","a":["They multiply","They neutralize the threat","They produce oxygen","They digest food"],"c":1,"e":"Antibodies neutralize pathogens or mark them for destruction by phagocytes.","cat":"Human Health & Diseases"},
-    {"q":"During an asthma attack, why does breathing become difficult?","a":["Heart stops","Airways narrow","Muscles weaken","Blood thickens"],"c":1,"e":"Inflammation causes bronchial tubes to constrict and swell.","cat":"Human Health & Diseases"},
-    {"q":"Swollen lymph nodes are often a sign of what?","a":["Dehydration","Infection","Fatigue","Hunger"],"c":1,"e":"Lymph nodes trap pathogens and swell with immune cells during infection.","cat":"Human Health & Diseases"},
-    {"q":"Which system is activated when a vaccine is introduced into the body?","a":["Digestive","Respiratory","Immune","Circulatory"],"c":2,"e":"The immune system identifies the antigen and produces antibodies.","cat":"Human Health & Diseases"}
-  ]
-};
-
-// Programmatically expand to 70 questions for the full experience (Simulation of large JSON)
-const extraConcepts = [
-    {q: "What is the primary function of the root hair cell?", a: ["Photosynthesis", "Water absorption", "Support", "Reproduction"], c: 1, e: "Root hairs increase surface area for osmosis.", cat: "Plant Systems"},
-    {q: "Which vessel transports water in a plant?", a: ["Phloem", "Xylem", "Cambium", "Epidermis"], c: 1, e: "Xylem = Water up. Phloem = Food down.", cat: "Plant Systems"},
-    {q: "Hormones are produced by which system?", a: ["Nervous", "Endocrine", "Skeletal", "Muscular"], c: 1, e: "The endocrine system consists of glands that secrete hormones.", cat: "Animal Systems"},
-    {q: "The basic unit of life is the...", a: ["Atom", "Molecule", "Cell", "Organ"], c: 2, e: "Cells are the building blocks of all living things.", cat: "Cellular Functions"},
-    {q: "Methane is released primarily by...", a: ["Trees", "Livestock", "Oceans", "Rocks"], c: 1, e: "Livestock agriculture is a major source of methane.", cat: "Climate Change & Environment"}
-];
-
-// Fill the rest of the 70 questions
-while (FALLBACK_DATA.questions.length < 70) {
-    const template = extraConcepts[FALLBACK_DATA.questions.length % extraConcepts.length];
-    FALLBACK_DATA.questions.push({
-        ...template,
-        q: `${template.q} (Variation ${Math.floor(FALLBACK_DATA.questions.length / 5)})`
-    });
-}
-
-
-/**
- * 2. APP STATE & CONFIG
- */
-const state = {
-    questions: [],
-    answers: [], // User selected indices
-    currentIndex: 0,
-    mode: 'practice', // 'practice' or 'exam'
-    isComplete: false,
-    startTime: null
-};
-
-// DOM Elements
-const els = {
-    screens: {
-        loading: document.getElementById('screen-loading'),
-        start: document.getElementById('screen-start'),
-        quiz: document.getElementById('screen-quiz'),
-        results: document.getElementById('screen-results')
-    },
-    quiz: {
-        title: document.getElementById('quiz-title'),
-        desc: document.getElementById('quiz-desc'),
-        count: document.getElementById('question-count'),
-        question: document.getElementById('q-text'),
-        options: document.getElementById('options-list'),
-        progress: document.getElementById('progress-bar'),
-        progressText: document.getElementById('progress-text'),
-        topic: document.getElementById('topic-badge'),
-        feedback: document.getElementById('feedback-area'),
-        fbMsg: document.getElementById('feedback-msg'),
-        fbExp: document.getElementById('feedback-exp'),
-        footer: document.getElementById('quiz-footer'),
-        btnNext: document.getElementById('btn-next'),
-        btnPrev: document.getElementById('btn-prev'),
-        btnFinish: document.getElementById('btn-finish')
-    },
-    results: {
-        percent: document.getElementById('score-percent'),
-        fraction: document.getElementById('score-fraction'),
-        stats: document.getElementById('category-stats'),
-        list: document.getElementById('review-list')
-    }
-};
-
-/**
- * 3. INITIALIZATION & DATA LOADING
- */
-async function init() {
-    // Theme Check
-    if(localStorage.getItem('theme') === 'dark') document.body.setAttribute('data-theme', 'dark');
-    if(localStorage.getItem('textSize') === 'large') document.body.setAttribute('data-text-size', 'large');
-
-    // Simulate Data Fetch
-    try {
-        // In a real app: const res = await fetch('data.json'); const data = await res.json();
-        // Here we simulate a network delay then use fallback
-        await new Promise(r => setTimeout(r, 800)); 
-        loadQuiz(FALLBACK_DATA);
-    } catch (e) {
-        alert("Failed to load quiz data. Using offline backup.");
-        loadQuiz(FALLBACK_DATA);
-    }
-}
-
-function loadQuiz(data) {
-    state.questions = data.questions;
-    
-    // Update Start Screen info
-    els.quiz.title.textContent = data.quizTitle;
-    els.quiz.desc.textContent = data.quizDescription;
-    els.quiz.count.textContent = state.questions.length;
-
-    // Check for saved progress
-    const saved = localStorage.getItem('quiz_progress');
-    if (saved) {
-        const parsed = JSON.parse(saved);
-        if(parsed.total === state.questions.length && !parsed.isComplete) {
-            document.getElementById('btn-resume').classList.remove('hidden');
-            document.getElementById('resume-alert').classList.remove('hidden');
-        }
-    }
-
-    showScreen('start');
-}
-
-/**
- * 4. CORE NAVIGATION & LOGIC
- */
-function selectMode(mode) {
-    state.mode = mode;
-    document.querySelectorAll('.mode-option').forEach(el => el.classList.remove('active'));
-    event.currentTarget.classList.add('active');
-}
-
-function startQuiz(newGame = false) {
-    if (newGame) {
-        state.currentIndex = 0;
-        state.answers = new Array(state.questions.length).fill(null);
-        state.isComplete = false;
-        state.startTime = Date.now();
-        localStorage.removeItem('quiz_progress');
-    }
-
-    showScreen('quiz');
-    renderQuestion();
-}
-
-function resumeQuiz() {
-    const saved = JSON.parse(localStorage.getItem('quiz_progress'));
-    state.answers = saved.answers;
-    state.currentIndex = saved.index;
-    state.mode = saved.mode;
-    state.isComplete = false;
-    showScreen('quiz');
-    renderQuestion();
-}
-
-function renderQuestion() {
-    const q = state.questions[state.currentIndex];
-    
-    // Header Info
-    els.quiz.progressText.textContent = `Question ${state.currentIndex + 1} of ${state.questions.length}`;
-    els.quiz.progress.style.width = `${((state.currentIndex + 1) / state.questions.length) * 100}%`;
-    els.quiz.topic.textContent = q.cat;
-    els.quiz.question.textContent = q.q;
-
-    // Options
-    els.quiz.options.innerHTML = '';
-    q.a.forEach((optText, idx) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        const letter = String.fromCharCode(65 + idx);
-        
-        // State Styling
-        const isSelected = state.answers[state.currentIndex] === idx;
-        const isCorrect = idx === q.c;
-        const hasAnswered = state.answers[state.currentIndex] !== null;
-
-        if (isSelected) btn.classList.add('selected');
-
-        // Mode: Practice (Show colors immediately)
-        if (state.mode === 'practice' && hasAnswered) {
-            if (isSelected && !isCorrect) btn.classList.add('incorrect');
-            if (isCorrect) btn.classList.add('correct');
-            btn.disabled = true; // Lock answers in practice mode once answered
-        }
-        
-        btn.innerHTML = `<span class="letter">${letter}</span> ${optText}`;
-        if (!hasAnswered) {
-            btn.onclick = () => handleAnswer(idx);
-        }
-        els.quiz.options.appendChild(btn);
-    });
-
-    // Feedback (Practice Mode Only)
-    const hasAnswered = state.answers[state.currentIndex] !== null;
-    if (state.mode === 'practice' && hasAnswered) {
-        els.quiz.feedback.classList.remove('hidden');
-        const isCorrect = state.answers[state.currentIndex] === q.c;
-        els.quiz.feedback.className = `card mt-4 ${isCorrect ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'}`;
-        els.quiz.fbMsg.textContent = isCorrect ? "Correct!" : "Incorrect";
-        els.quiz.fbExp.textContent = q.e;
-    } else {
-        els.quiz.feedback.classList.add('hidden');
-    }
-
-    // Footer Buttons
-    els.quiz.footer.classList.remove('hidden');
-    els.quiz.btnPrev.disabled = state.currentIndex === 0;
-    
-    if (state.currentIndex === state.questions.length - 1) {
-        els.quiz.btnNext.classList.add('hidden');
-        els.quiz.btnFinish.classList.remove('hidden');
-        // Disable finish if not all answered in exam mode? No, allow submit.
-        els.quiz.btnFinish.disabled = state.mode === 'exam' && state.answers.includes(null) && !confirm("You have unanswered questions. Submit anyway?");
-        // Actually, let's just enable it and handle logic in finishQuiz
-        els.quiz.btnFinish.disabled = false;
-    } else {
-        els.quiz.btnNext.classList.remove('hidden');
-        els.quiz.btnFinish.classList.add('hidden');
-    }
-}
-
-function handleAnswer(idx) {
-    state.answers[state.currentIndex] = idx;
-    saveProgress();
-    renderQuestion();
-}
-
-function nav(dir) {
-    const newIdx = state.currentIndex + dir;
-    if (newIdx >= 0 && newIdx < state.questions.length) {
-        state.currentIndex = newIdx;
-        renderQuestion();
-        // Reset scroll
-        document.querySelector('main').scrollTo(0,0);
-    }
-}
-
-function finishQuiz() {
-    if (state.mode === 'exam') {
-        const unanswered = state.answers.filter(a => a === null).length;
-        if (unanswered > 0) {
-            if (!confirm(`You have ${unanswered} unanswered questions. Submit?`)) return;
-        }
-    }
-    
-    state.isComplete = true;
-    localStorage.removeItem('quiz_progress'); // Clear resume data
-    calculateResults();
-    showScreen('results');
-}
-
-/**
- * 5. RESULTS & ANALYTICS
- */
-function calculateResults() {
-    let score = 0;
-    const catStats = {};
-
-    state.questions.forEach((q, i) => {
-        const isCorrect = state.answers[i] === q.c;
-        if (isCorrect) score++;
-
-        // Category Stats
-        if (!catStats[q.cat]) catStats[q.cat] = { correct: 0, total: 0 };
-        catStats[q.cat].total++;
-        if (isCorrect) catStats[q.cat].correct++;
-    });
-
-    // Score Circle
-    els.results.percent.textContent = Math.round((score / state.questions.length) * 100) + '%';
-    els.results.fraction.textContent = `${score} / ${state.questions.length}`;
-
-    // Render Stats
-    els.results.stats.innerHTML = '';
-    Object.keys(catStats).forEach(cat => {
-        const s = catStats[cat];
-        const pct = Math.round((s.correct / s.total) * 100);
-        const div = document.createElement('div');
-        div.className = 'card mb-0 p-3 flex flex-col items-center';
-        div.innerHTML = `
-            <span class="tag mb-1">${cat}</span>
-            <span class="font-bold text-lg">${pct}%</span>
-            <span class="text-xs text-muted">${s.correct}/${s.total}</span>
-        `;
-        els.results.stats.appendChild(div);
-    });
-
-    // Render Review List
-    els.results.list.innerHTML = '';
-    state.questions.forEach((q, i) => {
-        const userAns = state.answers[i];
-        const isCorrect = userAnswers = userAns === q.c;
-        const card = document.createElement('div');
-        card.className = 'review-item';
-        card.innerHTML = `
-            <div class="flex justify-between mb-1">
-                <span class="font-bold text-sm text-muted">Q${i+1}</span>
-                <span class="tag">${q.cat}</span>
-            </div>
-            <p class="font-bold mb-2">${q.q}</p>
-            <div class="text-sm">
-                <p class="${userAns === q.c ? 'text-green-600' : 'text-red-600'}">
-                    You: ${userAns !== null ? q.a[userAns] : 'Skipped'}
-                </p>
-                ${userAns !== q.c ? `<p class="text-green-600">Correct: ${q.a[q.c]}</p>` : ''}
-            </div>
-            <p class="text-xs text-muted mt-2 bg-slate-100 p-2 rounded">Note: ${q.e}</p>
-        `;
-        els.results.list.appendChild(card);
-    });
-}
-
-function resetApp() {
-    showScreen('start');
-}
-
-/**
- * 6. UTILITIES (Storage, Swipe, Theme)
- */
-function saveProgress() {
-    localStorage.setItem('quiz_progress', JSON.stringify({
-        index: state.currentIndex,
-        answers: state.answers,
-        mode: state.mode,
-        total: state.questions.length,
-        isComplete: false
-    }));
-}
-
-function showScreen(name) {
-    Object.values(els.screens).forEach(el => el.classList.add('hidden'));
-    els.screens[name].classList.remove('hidden');
-    window.scrollTo(0,0);
-}
-
-function toggleTheme() {
-    const isDark = document.body.getAttribute('data-theme') === 'dark';
-    document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    localStorage.setItem('theme', isDark ? 'light' : 'dark');
-}
-
-function toggleTextSize() {
-    const isLarge = document.body.getAttribute('data-text-size') === 'large';
-    document.body.setAttribute('data-text-size', isLarge ? '' : 'large');
-    localStorage.setItem('textSize', isLarge ? '' : 'large');
-}
-
-function exportResults() {
-    const text = `I scored ${els.results.percent.textContent} on the ${els.quiz.title.textContent}!`;
-    navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
-}
-
-// Swipe Support
-let touchStartX = 0;
-let touchEndX = 0;
-const SWIPE_THRESHOLD = 50;
-
-document.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX, false);
-document.addEventListener('touchend', e => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-}, false);
-
-function handleSwipe() {
-    if (state.isComplete || document.getElementById('screen-quiz').classList.contains('hidden')) return;
-    
-    if (touchEndX < touchStartX - SWIPE_THRESHOLD) nav(1); // Swipe Left -> Next
-    if (touchEndX > touchStartX + SWIPE_THRESHOLD) nav(-1); // Swipe Right -> Prev
-}
-
-// Boot
-init();
-
-</script>
+    <script src="script.js"></script>
 </body>
 </html>
