@@ -1,0 +1,498 @@
+{
+  "quizTitle": "General Science Quiz",
+  "quizDescription": "3rd Quarter Review - Plant Systems, Animal Systems, Cellular Functions, Climate Change, Human Health",
+  "quizAuthor": "Science Department",
+  "quizVersion": "1.0",
+  "questions": [
+    {
+      "q": "Farmers notice their crops are wilting even though the soil is moist. Which plant tissue is most likely damaged?",
+      "a": ["Phloem", "Xylem", "Stomata", "Cambium"],
+      "c": 1,
+      "e": "Xylem transports water. If damaged, water cannot reach leaves, causing wilting.",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "Why do leaves have tiny pores that open and close during the day?",
+      "a": ["To absorb minerals", "To exchange gases", "To store food", "To reflect sunlight"],
+      "c": 1,
+      "e": "Stomata are pores in leaves specifically designed for the exchange of O2 and CO2.",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "A plant bends toward a window where sunlight enters. What type of response is this?",
+      "a": ["Gravitropism", "Hydrotropism", "Phototropism", "Chemotropism"],
+      "c": 2,
+      "e": "Phototropism is a plant's growth response toward a light source.",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "If food made in the leaves cannot reach the roots, which transport tissue is blocked?",
+      "a": ["Xylem", "Cambium", "Phloem", "Cortex"],
+      "c": 2,
+      "e": "Phloem is responsible for transporting sugars (food) from the leaves to other plant parts.",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "Which part of the plant is mainly responsible for absorbing water and minerals?",
+      "a": ["Leaves", "Roots", "Stem", "Flowers"],
+      "c": 1,
+      "e": "Roots absorb water and minerals from the soil to be transported by the xylem.",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "During exercise, oxygen is delivered faster to muscles. Which system is responsible for this?",
+      "a": ["Digestive", "Circulatory", "Nervous", "Endocrine"],
+      "c": 1,
+      "e": "The circulatory system transports nutrients and oxygen throughout the body.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "A person's body temperature rises when they have a fever. Which part of the brain helps regulate this?",
+      "a": ["Cerebellum", "Cerebrum", "Hypothalamus", "Medulla"],
+      "c": 2,
+      "e": "The hypothalamus is the part of the nervous system that regulates body temperature.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "Why is the pituitary gland often called the 'master gland'?",
+      "a": ["It controls digestion", "It produces antibodies", "It regulates other glands", "It stores oxygen"],
+      "c": 2,
+      "e": "The pituitary gland is the master gland because it regulates the functions of other endocrine glands.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "Which system produces chemical messengers that travel through the blood to control body functions?",
+      "a": ["Nervous", "Circulatory", "Endocrine", "Immune"],
+      "c": 2,
+      "e": "The endocrine system produces hormones (chemical messengers) to regulate the body.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "Which part of the body is most affected by a torn ACL?",
+      "a": ["Shoulder", "Ankle", "Knee", "Elbow"],
+      "c": 2,
+      "e": "The ACL is a ligament located in the knee that is vital for movement stability.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "Cells without functioning mitochondria would struggle to do what?",
+      "a": ["Divide", "Store DNA", "Release energy", "Absorb water"],
+      "c": 2,
+      "e": "Mitochondria are the powerhouses of the cell, releasing energy from glucose.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "Why is it important to understand how cells form tissues and organs?",
+      "a": ["To predict how organisms grow", "To understand disease spread", "To see how systems interact", "All of the above"],
+      "c": 3,
+      "e": "Biological organization shows how all parts combine to sustain life and interact.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "If one organ in a system fails, how does it affect the rest of the body?",
+      "a": ["No effect", "Other organs compensate", "It may disrupt the whole system", "It improves function"],
+      "c": 2,
+      "e": "The reviewer states that damage to one part of a biological system affects the whole system.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "Which part of the cell is responsible for controlling activities and storing genetic material?",
+      "a": ["Mitochondria", "Nucleus", "Ribosome", "Cytoplasm"],
+      "c": 1,
+      "e": "The nucleus acts as the control center and houses the cell's genetic information.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "Which organelle is known as the 'powerhouse' of the cell?",
+      "a": ["Nucleus", "Chloroplast", "Mitochondria", "Golgi body"],
+      "c": 2,
+      "e": "Mitochondria are defined as the powerhouse because they release energy.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "Coral reefs lose their color when ocean temperatures rise. What is this phenomenon called?",
+      "a": ["Coral growth", "Coral bleaching", "Coral migration", "Coral respiration"],
+      "c": 1,
+      "e": "Coral bleaching is a primary effect of rising ocean temperatures due to climate change.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "Why does planting more trees help reduce climate change?",
+      "a": ["Trees produce heat", "Trees absorb carbon dioxide", "Trees reflect sunlight", "Trees trap methane"],
+      "c": 1,
+      "e": "Trees act as carbon sinks, absorbing CO2 which is a major greenhouse gas.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "Which gas is most linked to the greenhouse effect?",
+      "a": ["Oxygen", "Nitrogen", "Carbon dioxide", "Helium"],
+      "c": 2,
+      "e": "Carbon dioxide and methane are the primary greenhouse gases that trap heat.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "Migratory birds change their travel patterns earlier than usual. What does this show?",
+      "a": ["Random behavior", "Response to climate", "Food shortage", "Lunar cycles"],
+      "c": 1,
+      "e": "Changes in migration are a direct animal response to long-term climate changes.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "Which action helps reduce the impact of climate change?",
+      "a": ["Deforestation", "Burning fossil fuels", "Using public transport", "Overfishing"],
+      "c": 2,
+      "e": "Using public transport reduces carbon emissions, a key solution to climate change.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "Why do doctors recommend vaccines even if you are healthy?",
+      "a": ["To cure diseases", "To prevent future infections", "To increase oxygen", "To reduce hunger"],
+      "c": 1,
+      "e": "Vaccines stimulate the immune system to provide protection against future pathogens.",
+      "cat": "Human Health & Diseases"
+    },
+    {
+      "q": "What happens inside the body when antibodies attach to harmful microbes?",
+      "a": ["They multiply", "They neutralize the threat", "They produce oxygen", "They digest food"],
+      "c": 1,
+      "e": "Antibodies are proteins that bind to antigens to neutralize pathogens.",
+      "cat": "Human Health & Diseases"
+    },
+    {
+      "q": "During an asthma attack, why does breathing become difficult?",
+      "a": ["Heart stops", "Airways narrow", "Muscles weaken", "Blood thickens"],
+      "c": 1,
+      "e": "In asthma, narrowed airways reduce airflow, making breathing difficult.",
+      "cat": "Human Health & Diseases"
+    },
+    {
+      "q": "Swollen lymph nodes are often a sign of what?",
+      "a": ["Dehydration", "Infection", "Fatigue", "Hunger"],
+      "c": 1,
+      "e": "Lymph nodes swell when immune cells multiply to fight an infection.",
+      "cat": "Human Health & Diseases"
+    },
+    {
+      "q": "Which system is activated when a vaccine is introduced into the body?",
+      "a": ["Digestive", "Respiratory", "Immune", "Circulatory"],
+      "c": 2,
+      "e": "The immune system is responsible for the body's defense and vaccine response.",
+      "cat": "Human Health & Diseases"
+    },
+    {
+      "q": "Which plant tissue is correctly paired with its function?",
+      "a": ["Xylem - Food transport", "Phloem - Water transport", "Stomata - Gas exchange", "Xylem - Gas exchange"],
+      "c": 2,
+      "e": "Stomata are the tiny pores used for gas exchange (O2 and CO2).",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "If a plant's roots are removed, which process is immediately stopped?",
+      "a": ["Photosynthesis", "Water absorption", "Pollination", "Sugar production"],
+      "c": 1,
+      "e": "Roots are the primary organ for absorbing water and minerals.",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "What is the primary stimulus for gravitropism?",
+      "a": ["Light", "Water", "Gravity", "Touch"],
+      "c": 2,
+      "e": "Gravitropism is a plant's growth response to the force of gravity.",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "Which animal system is most similar to the xylem and phloem in plants?",
+      "a": ["Nervous system", "Circulatory system", "Immune system", "Respiratory system"],
+      "c": 1,
+      "e": "Both systems are responsible for transporting nutrients and essential fluids.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "An inhaler is used during an asthma attack to perform which action?",
+      "a": ["Close the airways", "Open the airways", "Stop the heart", "Increase CO2"],
+      "c": 1,
+      "e": "Inhalers contain medication that opens narrowed airways during an attack.",
+      "cat": "Human Health & Diseases"
+    },
+    {
+      "q": "Which greenhouse gas is commonly produced by livestock and landfills?",
+      "a": ["Oxygen", "Methane", "Nitrogen", "Argon"],
+      "c": 1,
+      "e": "Methane is a potent greenhouse gas that traps heat in the atmosphere.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "The hierarchy of biological organization begins with cells and ends with what?",
+      "a": ["Organs", "Organisms", "Tissues", "Atoms"],
+      "c": 1,
+      "e": "The organization flow is Cells -> Tissues -> Organs -> Systems -> Organism.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "Which gland is considered part of the endocrine system?",
+      "a": ["Pituitary", "Stomata", "Xylem", "Phloem"],
+      "c": 0,
+      "e": "The pituitary gland is the master gland of the endocrine system.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "Reforestation helps the environment by increasing the number of sinks for which gas?",
+      "a": ["Oxygen", "Carbon dioxide", "Nitrogen", "Methane"],
+      "c": 1,
+      "e": "More trees mean more absorption of CO2 from the atmosphere.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "What does a vaccine use to stimulate immunity?",
+      "a": ["Antibodies", "Weakened pathogens", "Strong poisons", "Red blood cells"],
+      "c": 1,
+      "e": "Vaccines use weakened or inactive pathogens to train the immune system.",
+      "cat": "Human Health & Diseases"
+    },
+    {
+      "q": "In the phrase 'Cells -> Tissues -> Organs', what comes after Organs?",
+      "a": ["Atoms", "Systems", "Molecules", "Organelles"],
+      "c": 1,
+      "e": "Organs combine to form organ systems.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "Which plant response is a growth toward a light source?",
+      "a": ["Gravitropism", "Phototropism", "Hydrotropism", "Thigmotropism"],
+      "c": 1,
+      "e": "Phototropism describes growth oriented toward light.",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "Which part of the brain is the control center for homeostasis functions like temperature?",
+      "a": ["Medulla", "Hypothalamus", "Cerebellum", "Pituitary"],
+      "c": 1,
+      "e": "The hypothalamus regulates body temperature and other internal balances.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "What is the result of long-term changes in global temperature and weather patterns?",
+      "a": ["Season changes", "Climate change", "Daily weather", "Tides"],
+      "c": 1,
+      "e": "Climate change refers to long-term shifts in global weather patterns.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "Where does the energy used by a cell primarily come from?",
+      "a": ["The nucleus", "Mitochondria", "The cell wall", "Stomata"],
+      "c": 1,
+      "e": "Mitochondria release energy from glucose for the cell to use.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "Which system is responsible for removing carbon dioxide from the body?",
+      "a": ["Endocrine system", "Respiratory system", "Nervous system", "Immune system"],
+      "c": 1,
+      "e": "The respiratory system provides oxygen and removes CO2.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "Proteins that bind to antigens to neutralize them are called...",
+      "a": ["Vaccines", "Antibodies", "Hormones", "Enzymes"],
+      "c": 1,
+      "e": "Antibodies are immune proteins that neutralize specific pathogens.",
+      "cat": "Human Health & Diseases"
+    },
+    {
+      "q": "A drought affecting agriculture is an example of an effect of...",
+      "a": ["Plant growth", "Climate change", "Healthy soil", "Vaccination"],
+      "c": 1,
+      "e": "Increased droughts are a documented effect of global climate change.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "Which structure is the basic functional unit of life?",
+      "a": ["Tissue", "Organ", "Cell", "System"],
+      "c": 2,
+      "e": "The cell is the smallest unit that can perform all life functions.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "Hormones are chemical messengers produced by which system?",
+      "a": ["Circulatory", "Endocrine", "Respiratory", "Nervous"],
+      "c": 1,
+      "e": "The endocrine system produces hormones to control body functions.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "What happens if a plant's phloem is completely blocked?",
+      "a": ["Roots will not get water", "Leaves will not get sugar", "Roots will not get sugar", "Gas exchange stops"],
+      "c": 2,
+      "e": "Phloem carries sugar from leaves to roots; a block prevents roots from getting food.",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "Biodiversity loss is often a consequence of...",
+      "a": ["Reforestation", "Climate change", "Vaccination", "Homeostasis"],
+      "c": 1,
+      "e": "Climate change disrupts habitats, leading to a loss of different species.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "Which organ system is primarily affected by an ACL injury?",
+      "a": ["Respiratory", "Skeletal/Muscular", "Endocrine", "Immune"],
+      "c": 1,
+      "e": "The ACL is a ligament, which is part of the system governing movement.",
+      "cat": "Human Health & Diseases"
+    },
+    {
+      "q": "The 'powerhouse of the cell' uses which substance to release energy?",
+      "a": ["Carbon dioxide", "Glucose", "Nitrogen", "Antibodies"],
+      "c": 1,
+      "e": "Mitochondria release energy from glucose through cellular respiration.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "Which pore is used by plants for gas exchange?",
+      "a": ["Xylem", "Stomata", "Phloem", "Root hair"],
+      "c": 1,
+      "e": "Stomata are the tiny pores that allow CO2 and O2 to enter/exit.",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "Vaccines work by stimulating the production of...",
+      "a": ["Hormones", "Antibodies", "Glucose", "Xylem"],
+      "c": 1,
+      "e": "Vaccines train the immune system to produce specific antibodies.",
+      "cat": "Human Health & Diseases"
+    },
+    {
+      "q": "Which tissue in a plant moves water against the force of gravity?",
+      "a": ["Phloem", "Cambium", "Xylem", "Pith"],
+      "c": 2,
+      "e": "Xylem transports water and minerals from the roots upward.",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "A fever is a sign that which body system is responding to a threat?",
+      "a": ["Digestive", "Immune", "Respiratory", "Excretory"],
+      "c": 1,
+      "e": "The immune system triggers responses like fever to fight infection.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "Reducing greenhouse gas emissions can be achieved by...",
+      "a": ["Deforestation", "Overfishing", "Using public transport", "Burning more coal"],
+      "c": 2,
+      "e": "Public transport is a solution to lower the carbon footprint.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "Cellular functions are compromised when which organelle is damaged?",
+      "a": ["Vacuole", "Mitochondria", "Cell wall", "Chloroplast"],
+      "c": 1,
+      "e": "Since mitochondria provide energy, their damage stops most cellular work.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "A plant's roots growing downward is an example of...",
+      "a": ["Phototropism", "Gravitropism", "Hydrotropism", "Chemotropism"],
+      "c": 1,
+      "e": "Roots show positive gravitropism by growing toward the pull of gravity.",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "The 'master gland' is part of which system?",
+      "a": ["Nervous", "Endocrine", "Circulatory", "Immune"],
+      "c": 1,
+      "e": "The pituitary gland (master gland) is a core part of the endocrine system.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "Warm ocean temperatures cause corals to expel their algae, leading to...",
+      "a": ["Coral growth", "Coral bleaching", "Coral reproduction", "Coral cooling"],
+      "c": 1,
+      "e": "Bleaching occurs when corals are stressed by heat and lose their algae.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "Which immune system component multiplies during an infection, causing swelling?",
+      "a": ["Hormones", "Lymph nodes", "Xylem", "Alveoli"],
+      "c": 1,
+      "e": "Lymph nodes swell because immune cells are multiplying to fight infection.",
+      "cat": "Human Health & Diseases"
+    },
+    {
+      "q": "What is the relationship between cells and tissues?",
+      "a": ["Tissues form cells", "Cells form tissues", "They are unrelated", "Organs form cells"],
+      "c": 1,
+      "e": "Groups of similar cells work together to form tissues.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "Which gas do plants take in through their stomata for photosynthesis?",
+      "a": ["Oxygen", "Carbon dioxide", "Methane", "Argon"],
+      "c": 1,
+      "e": "Plants require CO2 from the atmosphere for photosynthesis.",
+      "cat": "Plant Systems"
+    },
+    {
+      "q": "The respiratory system provides oxygen and removes which waste gas?",
+      "a": ["Nitrogen", "Carbon dioxide", "Methane", "Helium"],
+      "c": 1,
+      "e": "Gas exchange in the lungs involves taking in O2 and releasing CO2.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "Protecting marine areas is a solution to...",
+      "a": ["Asthma", "Biodiversity loss", "Xylem damage", "Nervous disorders"],
+      "c": 1,
+      "e": "Marine protection preserves ecosystems and maintains biodiversity.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "Which part of the cell controls all activities and stores DNA?",
+      "a": ["Mitochondria", "Nucleus", "Cytoplasm", "Cell membrane"],
+      "c": 1,
+      "e": "The nucleus contains the genetic blueprint and controls the cell.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "Inhalers are primarily used to treat which condition?",
+      "a": ["ACL tear", "Asthma", "Fever", "Coral bleaching"],
+      "c": 1,
+      "e": "Asthma involves airway narrowing that inhalers help reverse.",
+      "cat": "Human Health & Diseases"
+    },
+    {
+      "q": "Which system transports oxygen, similar to how xylem transports water?",
+      "a": ["Nervous", "Circulatory", "Digestive", "Endocrine"],
+      "c": 1,
+      "e": "The circulatory system is the primary transport network in animals.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "Rising global temperatures due to trapped heat is known as...",
+      "a": ["The water cycle", "The greenhouse effect", "The carbon cycle", "The nitrogen cycle"],
+      "c": 1,
+      "e": "The greenhouse effect describes heat being trapped by atmospheric gases.",
+      "cat": "Climate Change & Environment"
+    },
+    {
+      "q": "If the circulatory system fails, which plant tissue failure is it most comparable to?",
+      "a": ["Stomata", "Xylem/Phloem", "Root hairs", "Flower"],
+      "c": 1,
+      "e": "Both involve the failure of the system's transport infrastructure.",
+      "cat": "Cellular Functions"
+    },
+    {
+      "q": "A person with a fever has a high temperature. Which brain part is responding?",
+      "a": ["Cerebrum", "Hypothalamus", "Medulla", "Optic nerve"],
+      "c": 1,
+      "e": "The hypothalamus maintains the body's 'set point' for temperature.",
+      "cat": "Animal Systems"
+    },
+    {
+      "q": "Which solution directly addresses the accumulation of CO2 in the atmosphere?",
+      "a": ["Overfishing", "Reforestation", "Burning oil", "Building more factories"],
+      "c": 1,
+      "e": "Reforestation uses trees to pull carbon dioxide out of the air.",
+      "cat": "Climate Change & Environment"
+    }
+  ]
+}
