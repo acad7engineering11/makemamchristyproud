@@ -12,6 +12,7 @@ const els = {
     modeInputs: document.querySelectorAll('input[name="mode"]'),
     startBtn: document.getElementById('start-btn'),
     resumeBtn: document.getElementById('resume-btn'),
+    exitBtn: document.getElementById('exit-btn'), // NEW
     progressText: document.getElementById('progress-text'),
     progressFill: document.getElementById('progress-fill'),
     categoryTag: document.getElementById('category-tag'),
@@ -38,6 +39,11 @@ function initApp() {
     els.nextBtn.onclick = () => nav(1);
     els.prevBtn.onclick = () => nav(-1);
     els.submitBtn.onclick = finishQuiz;
+    // NEW: Exit Button Logic
+    els.exitBtn.onclick = () => {
+        saveProgress(); 
+        setupStart();
+    };
     els.reviewBtn.onclick = () => {
         els.reviewList.classList.toggle('hidden');
         els.reviewBtn.textContent = els.reviewList.classList.contains('hidden') ? 'Review Answers' : 'Hide Review';
@@ -101,6 +107,10 @@ function resumeQuiz() {
     renderQ(); showView('quiz-view');
 }
 
+function saveProgress() {
+    localStorage.setItem('quizProgress', JSON.stringify({ index: state.currentIndex, answers: state.answers, mode: state.mode, total: state.questions.length }));
+}
+
 function renderQ() {
     const q = state.questions[state.currentIndex];
     const answered = state.answers.hasOwnProperty(state.currentIndex);
@@ -133,17 +143,17 @@ function renderQ() {
 function handleAns(idx, btn) {
     if (state.mode === 'A' && state.answers.hasOwnProperty(state.currentIndex)) return;
     state.answers[state.currentIndex] = idx;
-    localStorage.setItem('quizProgress', JSON.stringify({ index: state.currentIndex, answers: state.answers, mode: state.mode, total: state.questions.length }));
-
+    saveProgress();
+    
     Array.from(els.optsContainer.children).forEach((b, i) => {
         styleBtn(b, i, state.questions[state.currentIndex].c, idx);
         if (state.mode === 'A') b.onclick = null;
     });
 
-        if (state.mode === 'A') {
-            els.expText.textContent = state.questions[state.currentIndex].e;
-            els.expBox.classList.remove('hidden');
-        }
+    if (state.mode === 'A') {
+        els.expText.textContent = state.questions[state.currentIndex].e;
+        els.expBox.classList.remove('hidden');
+    }
 }
 
 function styleBtn(btn, i, cor, sel) {
@@ -168,7 +178,7 @@ function finishQuiz() {
     if (Object.keys(state.answers).length < len && !confirm(`Unanswered questions remain. Submit?`)) return;
     state.isFinished = true;
     localStorage.removeItem('quizProgress');
-
+    
     let score = 0;
     const cats = {};
     state.questions.forEach((q, i) => {
@@ -179,18 +189,18 @@ function finishQuiz() {
         if (ok) cats[q.cat].c++;
     });
 
-        els.finalScore.textContent = `${Math.round((score/len)*100)}%`;
-        els.scoreText.textContent = `${score}/${len} Correct`;
-        els.catBreakdown.innerHTML = '<h3>Category Stats</h3>' + Object.entries(cats).map(([k, v]) =>
+    els.finalScore.textContent = `${Math.round((score/len)*100)}%`;
+    els.scoreText.textContent = `${score}/${len} Correct`;
+    els.catBreakdown.innerHTML = '<h3>Category Stats</h3>' + Object.entries(cats).map(([k, v]) => 
         `<div class="cat-row"><span>${k}</span><span>${v.c}/${v.t}</span></div>`).join('');
-
-        els.reviewList.innerHTML = state.questions.map((q, i) => {
-            const u = state.answers[i];
-            const ok = u === q.c;
-            return `<div class="review-item"><span class="review-status ${ok?'correct':'wrong'}">Q${i+1}: ${ok?'Correct':'Incorrect'}</span>
-            <span class="review-q">${q.q}</span><p><b>You:</b> ${u!==undefined?q.a[u]:'Skipped'}</p>
-            <p><b>Correct:</b> ${q.a[q.c]}</p><div class="explanation">${q.e}</div></div>`;
-        }).join('');
-
-        showView('results-view');
+    
+    els.reviewList.innerHTML = state.questions.map((q, i) => {
+        const u = state.answers[i];
+        const ok = u === q.c;
+        return `<div class="review-item"><span class="review-status ${ok?'correct':'wrong'}">Q${i+1}: ${ok?'Correct':'Incorrect'}</span>
+        <span class="review-q">${q.q}</span><p><b>You:</b> ${u!==undefined?q.a[u]:'Skipped'}</p>
+        <p><b>Correct:</b> ${q.a[q.c]}</p><div class="explanation">${q.e}</div></div>`;
+    }).join('');
+    
+    showView('results-view');
 }
